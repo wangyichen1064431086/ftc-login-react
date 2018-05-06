@@ -6,10 +6,12 @@ import CSSModules from 'react-css-modules';
 
 import login from '../scss/login';
 
-@CSSModules(nav, {allowMultiple: true})
+@CSSModules(login, {allowMultiple: true})
 class Login extends React.Component {
   static propTypes = {
-    postUrl:PropTypes.string
+    postUrl: PropTypes.string,
+    findPasswordUrl: PropTypes.string,
+    registerUrl: PropTypes.string
   };
 
   static defaultProps = {
@@ -19,18 +21,20 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showOverlay: true,
+      show: true,
       username:'',
       password:'',
       saveme:'1'
     };
 
-    this.closeOverlay.bind(this);
+    this.closeOverlay = this.closeOverlay.bind(this);
+    
+
   }
 
   closeOverlay() {
     this.setState({
-      showOverlay:false
+      show: false 
     });
   }
 
@@ -84,7 +88,7 @@ class Login extends React.Component {
           <label htmlFor="ftcLoginPassword">
             密码
           </label>
-          <input type="password" styleName="oneline" name="password" id="ftcLoginPassword" value={password} onChange = {this.handleChange.bind(this,'password')} />
+          <input type="password"  name="password" id="ftcLoginPassword" value={password} onChange = {this.handleChange.bind(this,'password')} />
         </div>
     
         <div styleName="saveandsub">
@@ -97,14 +101,41 @@ class Login extends React.Component {
     )
   }
 
-  render() {
+  renderBottom() {
+    const { findPasswordUrl, registerUrl } = this.props;
     return (
-      <div styleName="bgshadow" >
+      <div styleName="overlay-bottom">
+        <div styleName="overlay-bottomline">
+          <a href={findPasswordUrl}>
+            找回密码
+          </a>
+        </div>
+        <div styleName="overlay-bottomline">
+          <a href={registerUrl}>
+            免费注册
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    const { show } = this.state;
+    console.log(`show:${show}`);
+    const bgStyle = classnames({
+      'bgshadow': true,
+      'bgshadow--close': !show
+    });
+    return (
+      <div styleName={bgStyle} >
         <div styleName="overlay-window">
           {this.renderOverlayHead()}
           {this.renderOverlayForm()}
+          {this.renderBottom()}
         </div>
       </div>
     )
   }
 }
+
+export default Login;

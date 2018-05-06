@@ -9,7 +9,7 @@ module.exports = {
 
   entry: [
     'webpack-hot-middleware/client',
-      './demo/app.js'
+      './demo/src/app.js'
   ],
   output: {
      // options related to how webpack emits results
@@ -22,7 +22,7 @@ module.exports = {
     rules: [{
       test:/\.jsx?$/,//匹配.js和.jsx结尾的文件
       include: [
-        path.join(__dirname, 'demo'),
+        path.join(__dirname, 'demo','src'),
         path.join(__dirname, 'src', 'js')
       ],
       loaders: ['babel-loader']//Rule.loaders is an alias to Rule.use.

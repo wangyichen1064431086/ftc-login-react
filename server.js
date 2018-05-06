@@ -20,7 +20,7 @@ app.use(require('webpack-dev-middleware')(compiler, webpackDevOptions));
 app.use(require('webpack-hot-middleware')(compiler));
 
 app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname,'demo','app.html'));
+  res.sendFile(path.join(__dirname, 'demo', 'views', 'app.html'));
 });
 
 app.listen(9000, '0.0.0.0', err => {
