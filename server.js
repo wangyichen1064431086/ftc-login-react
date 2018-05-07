@@ -11,6 +11,7 @@ const webpackMiddleware = require('koa-webpack');
 //const app = express();
 const app = new Koa();
 const compiler = webpack(config);
+const render = require('./lib/render.js');
 
 const webpackDevOptions = {
   noInfo: true,
@@ -22,6 +23,8 @@ const webpackDevOptions = {
 };
 
 app.use(logger());
+
+app.use(render);
 
 app.use(bodyParser());
 
@@ -39,8 +42,8 @@ app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'demo', 'views', 'app.html'));
 });
 */
-router.get('/', ctx => {
-  ctx.body = path.join(__dirname, 'demo', 'views', 'app.html');
+router.get('/', async ctx => {
+  await ctx.render('app',{})
 });
 /*
 app.listen(9000, '0.0.0.0', err => {

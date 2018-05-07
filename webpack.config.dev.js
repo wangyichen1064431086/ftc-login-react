@@ -8,7 +8,7 @@ module.exports = {
   // enhance debugging by adding meta info for the browser devtools(通过为浏览器devtools添加元信息来增强调试功能)
 
   entry: [
-    'webpack-hot-middleware/client',
+    //'webpack-hot-middleware/client',
       './demo/src/app.js'
   ],
   output: {
