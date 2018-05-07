@@ -7,7 +7,7 @@ const bodyParser = require('koa-bodyparser');
 
 const webpack = require('webpack');
 const config = require('./webpack.config.dev');
-
+const webpackMiddleware = require('koa-webpack');
 //const app = express();
 const app = new Koa();
 const compiler = webpack(config);
@@ -21,13 +21,19 @@ const webpackDevOptions = {
   }
 };
 
-app.user(logger());
+app.use(logger());
 
-app.user(bodyParser());
+app.use(bodyParser());
 
-app.use(require('webpack-dev-middleware')(compiler, webpackDevOptions));
+//app.use(require('webpack-dev-middleware')(compiler, webpackDevOptions));
+app.use(webpackMiddleware({
+  compiler: compiler,
+  config: config,
+  dev: webpackDevOptions,
+  hot: compiler
+}));
 
-app.use(require('webpack-hot-middleware')(compiler));
+//app.use(require('webpack-hot-middleware')(compiler));
 /*
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'demo', 'views', 'app.html'));
@@ -45,5 +51,5 @@ app.listen(9000, '0.0.0.0', err => {
   console.log('Listening at http://localhost:9000');
 });
 */
-app.user(router);
+app.use(router.routes());
 app.listen(9000);
