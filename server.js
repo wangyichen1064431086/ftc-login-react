@@ -24,7 +24,7 @@ const webpackDevOptions = {
 
 app.use(logger());
 
-app.use(render);
+//app.use(render);
 
 app.use(bodyParser());
 
@@ -42,9 +42,16 @@ app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'demo', 'views', 'app.html'));
 });
 */
+/*
 router.get('/', async ctx => {
   await ctx.render('app',{})
 });
+*/
+router.get('/', async ctx => {
+  ctx.body = await render('app.html', {
+    demoName: 'Ftc-Login-React Demo'
+  })
+})
 /*
 app.listen(9000, '0.0.0.0', err => {
   if (err) {
