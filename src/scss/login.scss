@@ -75,6 +75,15 @@
     font-size: 16px;
     background-color: rgb(250, 255, 189);
   }
+  .inputerror { //和o-form的样式一致
+    font-size: 14px;
+    line-height: 16px;
+    color: #c00;
+    clear: both;
+    margin-top: -1px;
+    padding: 3px 0;
+    text-align: left;
+  }
 }
 
 .saveandsub {

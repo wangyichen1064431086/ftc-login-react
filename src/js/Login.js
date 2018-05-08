@@ -22,14 +22,14 @@ class Login extends React.Component {
     super(props);
     this.state = {
       show: true,
-      username:'',
+      email:'',
       password:'',
-      saveme:'1'
+      saveme:'1',
+      errorForEmail: '',
+      errorForPassword: ''
     };
 
     this.closeOverlay = this.closeOverlay.bind(this);
-    
-
   }
 
   closeOverlay() {
@@ -40,7 +40,7 @@ class Login extends React.Component {
 
   handleChange(fieldname, e) {
     switch(fieldname) {
-      case 'username':
+      case 'email':
       case 'password':
         const {value} = e.target;
         this.setState({
@@ -61,6 +61,44 @@ class Login extends React.Component {
     }
   }
 
+  validateEmail(email, e) {
+    if (email === '') {
+      this.setState({
+        errorForEmail:'邮箱不能为空'
+      });
+      return false;
+    }
+
+    let re = /\S+@\S+\.\S+/;
+    if (!re.test(email)) {
+      this.setState({
+        errorForEmail: '请输入正确的邮箱'
+      })
+      return false;
+    }
+
+    this.setState({
+      errorForEmail: ''
+    })
+    return true;
+  }
+
+  validatePassword(password) {
+    if (password === '') {
+      this.setState({
+        errorForPassword: '密码不能为空'
+      });
+      return false;
+    }
+
+    this.setState({
+      errorForPassword: ''
+    });
+    return true;
+  }
+
+  
+
   renderOverlayHead() {
     return (
       <div styleName="overlay-title">
@@ -72,23 +110,25 @@ class Login extends React.Component {
 
   renderOverlayForm() {
     const {postUrl} = this.props;
-    const {username, password, saveme} = this.state;
+    const {email, password, saveme, errorForEmail, errorForPassword} = this.state;
 
     return ( //待进一步拆分组件
       <form method="post" styleName="overlay-form" action={postUrl}>
-      
+       
         <div styleName="form-item">
-          <label htmlFor="ftcLoginUsername">
-              电子邮件/用户名
+          <label htmlFor="ftcLoginEmail">
+              电子邮件
           </label>
-          <input type="text" name="username" id="ftcLoginUsername" value={username} onChange = {this.handleChange.bind(this, 'username')} />
+          <input type="text" name="email" id="ftcLoginEmail" value={email} onChange = {this.handleChange.bind(this, 'email')} onBlur = {this.validateEmail.bind(this, email)}/>
+          <div styleName = "inputerror">{errorForEmail}</div>
         </div>
 
         <div styleName="form-item">
           <label htmlFor="ftcLoginPassword">
             密码
           </label>
-          <input type="password"  name="password" id="ftcLoginPassword" value={password} onChange = {this.handleChange.bind(this,'password')} />
+          <input type="password"  name="password" id="ftcLoginPassword" value={password} onChange = {this.handleChange.bind(this,'password')} onBlur = {this.validatePassword.bind(this, password)} />
+          <div styleName = "inputerror">{errorForPassword}</div>
         </div>
     
         <div styleName="saveandsub">
@@ -96,6 +136,7 @@ class Login extends React.Component {
           <label htmlFor="ftcLoginSaveme">记住我</label>
 
           <input styleName="submit" type="submit" value="提交" />
+          {/*此处采用默认submit事件，待练习写preventDefault()情况下的提交事件*/}
         </div>
       </form>
     )
