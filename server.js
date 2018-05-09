@@ -22,6 +22,17 @@ const webpackDevOptions = {
   }
 };
 
+const simulateDatabase =[
+  {
+    email: '88888888@qq.com',
+    password: '123456'
+  },
+  {
+    email: '1234567@163.com',
+    password: 'abcdefg'
+  }
+];
+
 app.use(logger());
 
 //app.use(render);
@@ -51,7 +62,20 @@ router.get('/', async ctx => {
   ctx.body = await render('app.html', {
     demoName: 'Ftc-Login-React Demo'
   })
-})
+});
+
+router.post('/users/login', async ctx => {
+  const inputData = await ctx.request.body;
+  console.log('inputData:'); //QUEST:这是无法输出的，寻找koa中间件中打印信息的方法
+  console.log(inputData);
+  for (let dataItem of simulateDatabase) {
+    if (dataItem.email === inputData.email && dataItem.password === inputData.password) {
+      ctx.body = '登录成功';
+      break;
+    }
+  }
+  ctx.body = '登录失败'
+});
 /*
 app.listen(9000, '0.0.0.0', err => {
   if (err) {
