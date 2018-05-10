@@ -5,30 +5,30 @@ import replace from 'rollup-plugin-replace';
 import postcss from 'rollup-plugin-postcss';
 
 export default {
-  input: './src/js/index.js',
+  input: './src/js/Login.js',
   output:[
     {
-      name:'FtcNav',
+      name:'FtcLogin',
       sourcemap: true,
-      /*
+      
       globals:{
         react: 'React',
         'react-dom': 'ReactDOM'
       },
-      */
+      
       file: './build/index.js',
       format: 'umd'
       
     },
     {
-      name:'FtcNav',
+      name:'FtcLogin',
       sourcemap: true,
-      /*
+      
       globals:{
         react: 'React',
         'react-dom': 'ReactDOM'
       },
-      */
+      
       file: './build/index.es.js',
       format: 'es'
     },

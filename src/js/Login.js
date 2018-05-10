@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import CSSModules from 'react-css-modules';
 
-import login from '../scss/login';
+import login from '../scss/login.scss';//虽然在webpack构建本地测试环境时该文件找得到，但是在rollup构建生产环境时该文件找不到。
 
 @CSSModules(login, {allowMultiple: true})
 class Login extends React.Component {
