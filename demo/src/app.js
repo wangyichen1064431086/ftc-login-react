@@ -43,7 +43,7 @@ const  testData2 = [
 ];
 */
 ReactDOM.render(
-  <Login postUrl="/users/login" findPasswordUrl="/users/findpassword" registerUrl="http://user.ftchinese.com/register" />,
+  <Login postUrl="/users/login" findPasswordUrl="http://www.ftchinese.com/users/findpassword" registerUrl="http://user.ftchinese.com/register" />,
   //<Nav channels={testData2} dynamicnav={true} />,
   document.getElementById('root')
 );
