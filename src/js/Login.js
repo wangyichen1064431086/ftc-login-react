@@ -11,17 +11,21 @@ class Login extends React.Component {
   static propTypes = {
     postUrl: PropTypes.string,
     findPasswordUrl: PropTypes.string,
-    registerUrl: PropTypes.string
+    registerUrl: PropTypes.string,
+    closeFunc: PropTypes.func,
+    forcedShow: PropTypes.bool
   };
 
   static defaultProps = {
-
+    //closeFunc: this.closeOverlay NOTE:这样会报错，因为这里还无法访问this
+    closeFunc: null,
+    forcedShow: true
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      show: true,
+      show: this.props.forcedShow,
       email:'',
       password:'',
       saveme:'1',
@@ -100,10 +104,11 @@ class Login extends React.Component {
   
 
   renderOverlayHead() {
+    const {closeFunc} = this.props;
     return (
       <div styleName="overlay-title">
         登录
-        <span styleName="overlay-close" onClick={this.closeOverlay}>×</span>
+        <span styleName="overlay-close" onClick={closeFunc ? closeFunc : this.closeOverlay}>×</span>
       </div>
     )
   }

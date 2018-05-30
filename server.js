@@ -97,7 +97,7 @@ app.listen(9000, '0.0.0.0', err => {
 */
 app.use(router.routes());
 
-const server = app.listen(9000);
+const server = app.listen(8000);
 server.on('listening', () => { //NOTE: 'listening'事件，Node的原生事件，在调用server.listen()后触发
-  console.log('Listening 9000');
+  console.log('Listening 8000');
 })
