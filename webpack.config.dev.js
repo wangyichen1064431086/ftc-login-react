@@ -33,13 +33,6 @@ module.exports = {
         //path.resolve(__dirname, 'node_modules')
       ],
       loader: sassLoader
-    },{
-      test: /\.scss$/,
-      include: [
-        path.join(__dirname, 'demo'),
-        //path.resolve(__dirname, 'node_modules')
-      ],
-      loader: sassLoaderDemo
     }]
   },
 

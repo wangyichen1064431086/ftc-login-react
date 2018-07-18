@@ -3,7 +3,8 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import replace from 'rollup-plugin-replace';
 import postcss from 'rollup-plugin-postcss';
-
+import minify from 'rollup-plugin-minify-es';
+import cssdiscardcomments from 'postcss-discard-comments';
 export default {
   input: './src/js/Login.js',
   output:[
@@ -13,24 +14,23 @@ export default {
       
       globals:{
         react: 'React',
-        'react-dom': 'ReactDOM'
+        'react-dom': 'ReactDOM',
+        'prop-types':'PropTypes',
+        'classnames':'classnames',
+        'react-css-modules':'CSSModules'
       },
-      
-      file: './build/index.js',
+      file: './build/index.js', 
       format: 'umd'
-      
     },
+
     {
-      name:'FtcLogin',
+      //name只对umd/iife有效，所以这里也不用加了
+    
       sourcemap: true,
-      
-      globals:{
-        react: 'React',
-        'react-dom': 'ReactDOM'
-      },
-      
       file: './build/index.es.js',
       format: 'es'
+      
+      //globals只对于umd/iife有效，所以这里不用加了
     },
   ],
 
@@ -38,7 +38,10 @@ export default {
   plugins: [
     
     postcss({
-      modules: true
+      modules: true,
+      plugins: [
+        cssdiscardcomments()
+      ]
     }),
     
     babel({
@@ -59,10 +62,15 @@ export default {
         'node_modules/immutable/dist/immutable.js':['Seq']
       }
       */
+    }),
+    minify({
+      compress: {
+        drop_console:true
+      }
     })
+
   ],
 
-  //external: ['react', 'react-dom'],
-
+  external: ['react', 'react-dom','prop-types','classnames','react-css-modules']
   
 }
