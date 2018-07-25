@@ -77,6 +77,11 @@ router.post('/users/login', async ctx => {
       ctx.body = '登录成功';
       ctx.cookies.set('username',inputData.email);//设置cookie发送到前端
       //退出的时候记得在前端删除cookie
+      /* TODO:
+       * 待处理有无勾选“记住我”，勾选了表示关闭浏览器再打开还处于登录状态；不勾选表示关闭浏览器再打开就不是登录状态了。这应该是需要设置cookie的max-age或expires
+       * 待问祥云，这里是不是要进行用户名的加密工作
+      */
+
       successLogin = true;
       break;
     }

@@ -50,7 +50,13 @@ Type string. Optional.The url of the page for finding password.
 Type string. Optional.The url of the page for new user's registering.
 
 ### closeFunc
-Type Function. Optional. Default null. The function called when clicking the close button on the right left of the login window. If it is lacking, the Login component will use the default function <code>closeOverlay</code>.
+Type Function. Optional. Default null.
+
+It decide this component is a smart or dumb.
+
+If it is null, the component is smart and the <code>show</code> prop only decides the initial showing or hiding of the component. And when clicking the cross on the right left of the window or clicking the gray background, the build-in function <code>closeOverlay</code> of the component will be called.
+
+Otherwise, if it is not null, the component is dumb and the <code>show</code> prop totally decides the showing or hiding of the component. The <code>closeFunc</code> will be a function provided by the parent component and change the state of the parent, then the <code>show</code> prop will be changed according to the state of the parent. And the closeFunc is called when clicking the close button on the right left of the login window or the gray background.
 
 ### show
-Type Boolean.Optional. Default true. Decide to show the login window or not.
+Type Boolean.Optional. Default true. Only decides to show the login window or not initally when where is no <code>closeFunc</code>. However, it totally decides the showing or hiding of the component when there is <code>closeFunc</code>. More details see above **closeFunc**

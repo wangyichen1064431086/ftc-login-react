@@ -26,6 +26,7 @@ class Login extends React.Component {
     super(props);
     this.state = {
       show: this.props.show,
+      showBySelf:this.props.show,
       email:'',
       password:'',
       saveme:'1',
@@ -36,17 +37,41 @@ class Login extends React.Component {
     this.closeOverlay = this.closeOverlay.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) { //点击后该生命周期函数也会调用
+    console.log('componentWillReceiveProps');
     if('show' in nextProps) {
       this.setState({
         show: nextProps.show
       })
     }
   }
-  closeOverlay() {
-    this.setState({
-      show: false 
-    });
+  closeOverlay(e) {
+    let match = false;
+    /*
+    if(e.target.matches ) {
+      match = e.target.matches('div.bgshadow, span.overlay-close');
+    } else if (e.target.matchesSelector) {
+      match = e.target.matchesSelector('div.bgshadow, span.overlay-close');
+    } else {
+      match = e.target.className.indexOf('bgshadow') > -1 || e.target.className.indexOf('overlay-close') > -1 
+    }
+    */
+
+    
+   const targetClass = e.target.className;
+   console.log(targetClass);
+   if(targetClass.includes('bgshadow') || targetClass.includes('overlay-close') ) {
+     match = true;
+   }
+    console.log(`match:${match}`);
+   
+    console.log('closeOverlay');
+    if (match) {
+      this.setState({
+        showBySelf: false 
+      });
+    }
+    
   }
 
   handleChange(fieldname, e) {
@@ -177,14 +202,19 @@ class Login extends React.Component {
   }
 
   render() {
-    const { show } = this.state;
+    const { show, showBySelf} = this.state;
+    const {closeFunc} = this.props;
+
     console.log(`show:${show}`);
+    console.log(`showBySelf:${showBySelf}`);
+    
+    const realShow = closeFunc ? show : (show && showBySelf);
     const bgStyle = classnames({
       'bgshadow': true,
-      'bgshadow--close': !show
+      'bgshadow--close': !realShow
     });
     return (
-      <div styleName={bgStyle} >
+      <div styleName={bgStyle} onClick={closeFunc ? closeFunc : this.closeOverlay}>
         <div styleName="overlay-window">
           {this.renderOverlayHead()}
           {this.renderOverlayForm()}
