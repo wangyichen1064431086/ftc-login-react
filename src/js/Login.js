@@ -36,6 +36,13 @@ class Login extends React.Component {
     this.closeOverlay = this.closeOverlay.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if('show' in nextProps) {
+      this.setState({
+        show: nextProps.show
+      })
+    }
+  }
   closeOverlay() {
     this.setState({
       show: false 

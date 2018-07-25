@@ -52,6 +52,5 @@ Type string. Optional.The url of the page for new user's registering.
 ### closeFunc
 Type Function. Optional. Default null. The function called when clicking the close button on the right left of the login window. If it is lacking, the Login component will use the default function <code>closeOverlay</code>.
 
-
 ### show
 Type Boolean.Optional. Default true. Decide to show the login window or not.
