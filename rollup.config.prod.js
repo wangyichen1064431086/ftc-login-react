@@ -47,22 +47,11 @@ export default {
     babel({
       exclude: 'node_modules/**'
     }),
-    /*
-    replace({
-      'process.env.NODE_ENV': JSON.stringify('development')
-    }),
-    */
     resolve({
       jsnext: true,
       main:true
     }),
-    commonjs({
-      /*
-      namedExports: {
-        'node_modules/immutable/dist/immutable.js':['Seq']
-      }
-      */
-    }),
+    commonjs(),
     minify({
       compress: {
         drop_console:true

@@ -29,20 +29,29 @@ ReactDOM.render(
 ## Props of Login
 You can know about it by the proptypes:
 
-```
+```js
 static propTypes = {
   postUrl: PropTypes.string,
   findPasswordUrl: PropTypes.string,
-  registerUrl: PropTypes.string
+  registerUrl: PropTypes.string,
+  closeFunc: PropTypes.func,
+  forcedShow: PropTypes.bool
 };
 
 ```
 
 ### postUrl
-Type string. The url for posting data when clicking the 'submit' button.
+Type string. Required. The url for posting data when clicking the 'submit' button.
 
 ### findPasswordUrl
-Type string. The link to the page for finding password.
+Type string. Optional.The url of the page for finding password.
 
 ### registerUrl
-Type string. The link to the page for new user's registering.
+Type string. Optional.The url of the page for new user's registering.
+
+### closeFunc
+Type Function. Optional. Default null. The function called when clicking the close button on the right left of the login window. If it is lacking, the Login component will use the default function <code>closeOverlay</code>.
+
+
+### forcedShow
+Type Boolean.Optional. Default true. Decide to show the login window or not initially.

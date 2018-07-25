@@ -9,7 +9,7 @@ import login from '../scss/login.scss';//虽然在webpack构建本地测试环�
 @CSSModules(login, {allowMultiple: true})
 class Login extends React.Component {
   static propTypes = {
-    postUrl: PropTypes.string,
+    postUrl: PropTypes.string.isRequired,
     findPasswordUrl: PropTypes.string,
     registerUrl: PropTypes.string,
     closeFunc: PropTypes.func,
@@ -139,7 +139,7 @@ class Login extends React.Component {
         <div styleName="saveandsub">
           <input styleName="saveme" type="checkbox" value={saveme} checked={saveme==='1'} name="saveme" id="ftcLoginSaveme" onChange={this.handleChange.bind(this,'saveme')}/>
           <label htmlFor="ftcLoginSaveme">记住我</label>
-
+          {/*此处如果勾选了记住我，服务器端要设置用户名和密码的cookie发送过来*/}
           <input styleName="submit" type="submit" value="提交" />
           {/*此处采用默认submit事件，待练习写preventDefault()情况下的提交事件*/}
         </div>
@@ -151,16 +151,20 @@ class Login extends React.Component {
     const { findPasswordUrl, registerUrl } = this.props;
     return (
       <div styleName="overlay-bottom">
-        <div styleName="overlay-bottomline">
-          <a href={findPasswordUrl}>
-            找回密码
-          </a>
-        </div>
-        <div styleName="overlay-bottomline">
-          <a href={registerUrl}>
-            免费注册
-          </a>
-        </div>
+        { findPasswordUrl && (
+          <div styleName="overlay-bottomline">
+            <a href={findPasswordUrl}>
+              找回密码
+            </a>
+          </div>
+        )}
+        { registerUrl && (
+          <div styleName="overlay-bottomline">
+            <a href={registerUrl}>
+              免费注册
+            </a>
+          </div>
+        )}
       </div>
     );
   }
