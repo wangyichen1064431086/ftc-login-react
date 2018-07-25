@@ -13,19 +13,19 @@ class Login extends React.Component {
     findPasswordUrl: PropTypes.string,
     registerUrl: PropTypes.string,
     closeFunc: PropTypes.func,
-    forcedShow: PropTypes.bool
+    show: PropTypes.bool
   };
 
   static defaultProps = {
     //closeFunc: this.closeOverlay NOTE:这样会报错，因为这里还无法访问this
     closeFunc: null,
-    forcedShow: true
+    show: true
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      show: this.props.forcedShow,
+      show: this.props.show,
       email:'',
       password:'',
       saveme:'1',
@@ -118,13 +118,13 @@ class Login extends React.Component {
     const {email, password, saveme, errorForEmail, errorForPassword} = this.state;
 
     return ( //待进一步拆分组件
-      <form method="post" styleName="overlay-form" action={postUrl}>
+      <form method="post" styleName="overlay-form" action={postUrl} autoComplete="on">
        
         <div styleName="form-item">
           <label htmlFor="ftcLoginEmail">
               电子邮件
           </label>
-          <input type="text" name="email" id="ftcLoginEmail" value={email} onChange = {this.handleChange.bind(this, 'email')} onBlur = {this.validateEmail.bind(this, email)}/>
+          <input autoComplete="on" type="text" name="email" id="ftcLoginEmail" value={email} onChange = {this.handleChange.bind(this, 'email')} onBlur = {this.validateEmail.bind(this, email)}/>
           <div styleName = "inputerror">{errorForEmail}</div>
         </div>
 
@@ -132,7 +132,7 @@ class Login extends React.Component {
           <label htmlFor="ftcLoginPassword">
             密码
           </label>
-          <input type="password"  name="password" id="ftcLoginPassword" value={password} onChange = {this.handleChange.bind(this,'password')} onBlur = {this.validatePassword.bind(this, password)} />
+          <input autoComplete="on" type="password"  name="password" id="ftcLoginPassword" value={password} onChange = {this.handleChange.bind(this,'password')} onBlur = {this.validatePassword.bind(this, password)} />
           <div styleName = "inputerror">{errorForPassword}</div>
         </div>
     

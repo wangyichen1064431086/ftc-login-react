@@ -6,7 +6,7 @@
 The login component for FTC. React version. It is a part of ftc-header-react.
 
 ## Install
-```
+```c
 cd yourProject
 npm install react react-dom prop-types
 npm install "@ftchinese/ftc-login-react" --save 
@@ -15,7 +15,7 @@ npm install "@ftchinese/ftc-login-react" --save
 ## Usage
 Example:
 
-```
+```js
 import Login from '@ftchinese/ftc-login-react';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -35,7 +35,7 @@ static propTypes = {
   findPasswordUrl: PropTypes.string,
   registerUrl: PropTypes.string,
   closeFunc: PropTypes.func,
-  forcedShow: PropTypes.bool
+  show: PropTypes.bool
 };
 
 ```
@@ -53,5 +53,5 @@ Type string. Optional.The url of the page for new user's registering.
 Type Function. Optional. Default null. The function called when clicking the close button on the right left of the login window. If it is lacking, the Login component will use the default function <code>closeOverlay</code>.
 
 
-### forcedShow
-Type Boolean.Optional. Default true. Decide to show the login window or not initially.
+### show
+Type Boolean.Optional. Default true. Decide to show the login window or not.
