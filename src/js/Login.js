@@ -9,6 +9,7 @@ import login from '../scss/login.scss';//虽然在webpack构建本地测试环�
 @CSSModules(login, {allowMultiple: true})
 class Login extends React.Component {
   static propTypes = {
+    accountType: PropTypes.oneOf(['email', 'username', 'both']).isRequired,
     postUrl: PropTypes.string.isRequired,
     findPasswordUrl: PropTypes.string,
     registerUrl: PropTypes.string,
@@ -18,6 +19,7 @@ class Login extends React.Component {
 
   static defaultProps = {
     //closeFunc: this.closeOverlay NOTE:这样会报错，因为这里还无法访问this
+    accountType:'email',
     closeFunc: null,
     show: true
   };
@@ -27,10 +29,10 @@ class Login extends React.Component {
     this.state = {
       show: this.props.show,
       showBySelf:this.props.show,
-      email:'',
+      account:'',
       password:'',
       saveme:'1',
-      errorForEmail: '',
+      errorForAccount: '',
       errorForPassword: ''
     };
 
@@ -76,7 +78,7 @@ class Login extends React.Component {
 
   handleChange(fieldname, e) {
     switch(fieldname) {
-      case 'email':
+      case 'account':
       case 'password':
         const {value} = e.target;
         this.setState({
@@ -97,24 +99,48 @@ class Login extends React.Component {
     }
   }
 
-  validateEmail(email, e) {
-    if (email === '') {
+  validateAccount(account, accountType, e) {
+    let emptyErr;
+    let wrongErr;
+    let validateReg;
+    switch (accountType) {
+      case 'email':
+        emptyErr = '邮箱不能为空';
+        validateReg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        wrongErr = '请输入正确的邮箱';
+        break;
+      case 'username':
+        emptyErr = '用户名不能为空';
+        validateReg = /^[A-Za-z0-9_-]{4,16}$/;//4到16位（字母，数字，下划线，减号）
+        wrongErr = '请输入格式正确的用户名(4-16位数字字母下划线减号)';
+        break;
+      case 'both' :
+        emptyErr = '邮箱/用户名不能为空';
+        validateReg = /(^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$)|(^[A-Za-z0-9_-]{4,16}$)/;
+        wrongErr = '请输入正确的邮箱/用户名(4-16位数字字母下划线减号)';
+        break;
+      default:
+        emptyErr = '邮箱不能为空';
+        validateReg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        wrongErr = '请输入正确的邮箱';
+    }
+
+    if (account === '') {
       this.setState({
-        errorForEmail:'邮箱不能为空'
+        errorForAccount: emptyErr
       });
       return false;
     }
 
-    let re = /\S+@\S+\.\S+/;
-    if (!re.test(email)) {
+    if (!validateReg.test(account)) {
       this.setState({
-        errorForEmail: '请输入正确的邮箱'
+        errorForAccount: wrongErr
       })
       return false;
     }
 
     this.setState({
-      errorForEmail: ''
+      errorForAccount: ''
     })
     return true;
   }
@@ -127,6 +153,12 @@ class Login extends React.Component {
       return false;
     }
 
+    if (!/^[A-Za-z0-9_]{4,16}$/.test(password)) {
+      this.setState({
+        errorForPassword: '请输入格式正确的密码(4-16位数字字母下划线)'
+      })
+      return false;
+    }
     this.setState({
       errorForPassword: ''
     });
@@ -146,25 +178,41 @@ class Login extends React.Component {
   }
 
   renderOverlayForm() {
-    const {postUrl} = this.props;
-    const {email, password, saveme, errorForEmail, errorForPassword} = this.state;
-
+    const {postUrl, accountType} = this.props;
+    console.log('accountType:')
+    console.log(accountType);
+    const {account, password, saveme, errorForAccount, errorForPassword} = this.state;
+    let accountLabel = '';
+    let accountPlaceHolder = '';
+    switch (accountType) { 
+      case 'email':
+        accountLabel = '电子邮件';
+        accountPlaceHolder = '有效的电子邮件地址';
+        break;
+      case 'username':
+        accountLabel = '用户名';
+        accountPlaceHolder = '4~16位字母/数字/下划线/减号';
+        break;
+      default:
+        accountLabel = '电子邮件/用户名';
+        accountPlaceHolder = '有效的电子邮件或用户名';
+    }
     return ( //待进一步拆分组件
       <form method="post" styleName="overlay-form" action={postUrl} autoComplete="on">
        
         <div styleName="form-item">
-          <label htmlFor="ftcLoginEmail">
-              电子邮件
+          <label htmlFor="ftcLoginAccount">
+              {accountLabel}
           </label>
-          <input autoComplete="on" type="text" name="email" id="ftcLoginEmail" value={email} onChange = {this.handleChange.bind(this, 'email')} onBlur = {this.validateEmail.bind(this, email)}/>
-          <div styleName = "inputerror">{errorForEmail}</div>
+          <input autoComplete="on" type="text" name="account" id="ftcLoginAccount" value={account} onChange = {this.handleChange.bind(this, 'account')} onBlur = {this.validateAccount.bind(this, account, accountType)} placeholder = {accountPlaceHolder}/>
+          <div styleName = "inputerror">{errorForAccount}</div>
         </div>
 
         <div styleName="form-item">
           <label htmlFor="ftcLoginPassword">
             密码
           </label>
-          <input autoComplete="on" type="password"  name="password" id="ftcLoginPassword" value={password} onChange = {this.handleChange.bind(this,'password')} onBlur = {this.validatePassword.bind(this, password)} />
+          <input autoComplete="on" type="password"  name="password" id="ftcLoginPassword" value={password} onChange = {this.handleChange.bind(this,'password')} onBlur = {this.validatePassword.bind(this, password)} placeholder = {'4~16位字母数字下划线'} />
           <div styleName = "inputerror">{errorForPassword}</div>
         </div>
     

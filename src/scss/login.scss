@@ -52,13 +52,13 @@
 }
 
 .overlay-form {
-  height:240px;
-  padding:25px 0 0 0;
+  //height:240px;
+  padding:25px 0 10px 0;
 }
 
 .form-item {
-  height: 60px;
-  padding: 15px;
+  height: 85px;
+  padding: 5px 15px;
   label {
     display: block;
     height:22px;
@@ -75,6 +75,19 @@
     border-radius: 5px;
     font-size: 16px;
     background-color: rgb(250, 255, 189);
+
+    &::-webkit-input-placeholder { /* WebKit browsers */
+      font-size: 14px;
+    }
+    &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+      font-size: 14px;
+    }
+    &::-moz-placeholder { /* Mozilla Firefox 19+ */
+      font-size: 14px;
+    }
+    &:-ms-input-placeholder { /* Internet Explorer 10+ */
+      font-size: 14px;
+    }
   }
   .inputerror { //和o-form的样式一致
     font-size: 14px;
