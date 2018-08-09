@@ -31,7 +31,8 @@ You can know about it by the proptypes:
 
 ```js
 static propTypes = {
-  postUrl: PropTypes.string,
+  accountType: PropTypes.oneOf(['email', 'username', 'both']).isRequired,
+  postUrl: PropTypes.string.isRequired,
   findPasswordUrl: PropTypes.string,
   registerUrl: PropTypes.string,
   closeFunc: PropTypes.func,
@@ -39,6 +40,8 @@ static propTypes = {
 };
 
 ```
+### accountType
+Type string. Required. Default 'email'. The type of the account, which can be one of 'email', 'username', 'both'.
 
 ### postUrl
 Type string. Required. The url for posting data when clicking the 'submit' button.

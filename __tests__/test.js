@@ -41,9 +41,9 @@ describe('Build a Login component', () => {
     );
 
     const loginNode = ReactDOM.findDOMNode(login);
-    const emailInput = loginNode.querySelector('#ftcLoginEmail');//document.getElementById()在这里是不能用的，待认真学习
+    const emailInput = loginNode.querySelector('#ftcLoginAccount');//document.getElementById()在这里是不能用的，待认真学习
     console.log(emailInput);
-    const emailErrorDiv = loginNode.querySelector('form #ftcLoginEmail+div');
+    const emailErrorDiv = loginNode.querySelector('form #ftcLoginAccount+div');
     
     ReactTestUtils.Simulate.blur(emailInput);
     expect(emailErrorDiv.innerHTML).toBe('邮箱不能为空');
