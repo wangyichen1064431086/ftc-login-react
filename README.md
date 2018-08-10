@@ -36,7 +36,9 @@ static propTypes = {
   findPasswordUrl: PropTypes.string,
   registerUrl: PropTypes.string,
   closeFunc: PropTypes.func,
-  show: PropTypes.bool
+  show: PropTypes.bool,
+  validateFailed: PropTypes.bool
+
 };
 
 ```
@@ -63,3 +65,6 @@ Otherwise, if it is not null, the component is dumb and the <code>show</code> pr
 
 ### show
 Type Boolean.Optional. Default true. Only decides to show the login window or not initally when where is no <code>closeFunc</code>. However, it totally decides the showing or hiding of the component when there is <code>closeFunc</code>. More details see above **closeFunc**
+
+### validateFaield
+Type Boolean.Optional.If it is true, it will show the err infomation for validating failed. The information word is '用户不存在或密码错误'.

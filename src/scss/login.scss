@@ -123,6 +123,13 @@
     font-size: 16px;
   }
 }
+
+.validate--failed {
+  color: #c00;
+  padding: 10px 0;
+  margin-bottom: 15px;
+  background:#ffdce0;
+}
 .overlay-bottom {
   padding: 7.5px 15px;
   .overlay-bottomline {

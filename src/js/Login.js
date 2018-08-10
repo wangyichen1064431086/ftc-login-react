@@ -14,7 +14,8 @@ class Login extends React.Component {
     findPasswordUrl: PropTypes.string,
     registerUrl: PropTypes.string,
     closeFunc: PropTypes.func,
-    show: PropTypes.bool
+    show: PropTypes.bool,
+    validateFailed: PropTypes.bool
   };
 
   static defaultProps = {
@@ -178,7 +179,7 @@ class Login extends React.Component {
   }
 
   renderOverlayForm() {
-    const {postUrl, accountType} = this.props;
+    const {postUrl, accountType, validateFailed} = this.props;
     console.log('accountType:')
     console.log(accountType);
     const {account, password, saveme, errorForAccount, errorForPassword} = this.state;
@@ -186,16 +187,16 @@ class Login extends React.Component {
     let accountPlaceHolder = '';
     switch (accountType) { 
       case 'email':
-        accountLabel = '电子邮件';
-        accountPlaceHolder = '有效的电子邮件地址';
+        accountLabel = '电子邮箱';
+        accountPlaceHolder = '有效的电子邮箱地址';
         break;
       case 'username':
         accountLabel = '用户名';
         accountPlaceHolder = '4~16位字母/数字/下划线/减号';
         break;
       default:
-        accountLabel = '电子邮件/用户名';
-        accountPlaceHolder = '有效的电子邮件或用户名';
+        accountLabel = '电子邮箱/用户名';
+        accountPlaceHolder = '有效的电子邮箱或用户名';
     }
     return ( //待进一步拆分组件
       <form method="post" styleName="overlay-form" action={postUrl} autoComplete="on">
@@ -215,7 +216,13 @@ class Login extends React.Component {
           <input autoComplete="on" type="password"  name="password" id="ftcLoginPassword" value={password} onChange = {this.handleChange.bind(this,'password')} onBlur = {this.validatePassword.bind(this, password)} placeholder = {'4~16位字母数字下划线'} />
           <div styleName = "inputerror">{errorForPassword}</div>
         </div>
-    
+
+        { validateFailed && (
+          <div styleName="validate--failed">
+            用户不存在或密码错误，请重新输入
+          </div>
+          )
+        }
         <div styleName="saveandsub">
           <input styleName="saveme" type="checkbox" value={saveme} checked={saveme==='1'} name="saveme" id="ftcLoginSaveme" onChange={this.handleChange.bind(this,'saveme')}/>
           <label htmlFor="ftcLoginSaveme">记住我</label>
