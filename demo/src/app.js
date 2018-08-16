@@ -1,5 +1,5 @@
-import Login from '../../src/js/Login.js';
-//import Login from '../../build/index.es.js';
+//import Login from '../../src/js/Login.js';
+import Login from '../../build/index.es.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
